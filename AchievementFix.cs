@@ -9,7 +9,7 @@ namespace SuzyCube_AchievementFix
 {
     public class AchievementFix: MelonMod
     {
-        private Dictionary<string, bool> _achievements = new Dictionary<string, bool>();
+        private readonly Dictionary<string, bool> _achievements = new Dictionary<string, bool>();
 
         public override void OnInitializeMelon()
         {
@@ -38,6 +38,29 @@ namespace SuzyCube_AchievementFix
             }
             
             LoggerInstance.Msg("Achievements retrieved!");
+        }
+        
+        public override void OnSceneWasInitialized(int buildIndex, string sceneName)
+        {
+            if (sceneName == "TitleScreen")
+                MelonEvents.OnGUI.Subscribe(SaveSlotButton, 100);
+            else            
+                MelonEvents.OnGUI.Unsubscribe(SaveSlotButton);
+        }
+
+        private void SaveSlotButton()
+        {
+            if (!GUI.Button(new Rect(10, Screen.height - 60, 300, 50), "Create Save From Achievements"))
+                return;
+            
+            var saveSlot = SaveSlotManager.GetFirstAvailableIndex();
+            if (saveSlot == -1)
+            {
+                LoggerInstance.Msg("No save slot available.");
+                return;
+            }
+            
+            LoggerInstance.Msg("Using save slot " + saveSlot);
         }
     }
 
