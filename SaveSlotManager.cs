@@ -10,17 +10,61 @@ namespace SuzyCube_AchievementFix
         {
             for (var i = 0; i < 3; i++)
             {
-                if (!SaveSlotInUse(i))
+                if (!PlayerPrefsX.GetBool($"slot{i}hasPlayed"))
                     return i;
             }
 
             return -1;
         }
         
-        private static bool SaveSlotInUse(int slotIndex)
+        public static void CreateSaveFromAchievements(int saveSlot, Dictionary<string, bool> achievements)
         {
-            var lhs = RuntimeServices.op_Addition("slot", slotIndex);
-            return !PlayerPrefsX.GetBool(RuntimeServices.op_Addition(lhs, "hasPlayed"));
+            LouisSaveSlotData.saveSlot = saveSlot;
+            
+            LouisSaveSlotData.SetBool("hasPlayed", true);
+
+            // Regular levels.
+            for (var world = 1; world <= 5; world++)
+            {
+                var worldCompleted = achievements[$"completeWorld{world}"];
+                var worldStarred = achievements[$"allStarsWorld{world}"];
+                
+                for (var level = 1; level <= 6; level++)
+                {
+                    var levelDisplay = level.ToString();
+                    switch (level)
+                    {
+                        case 5:
+                            levelDisplay = "B";
+                            break;
+                        case 6:
+                            levelDisplay = "S";
+                            break;
+                    }
+
+                    MarkLevelComplete($"level{world}-{levelDisplay}", worldCompleted, worldStarred);
+                }
+            }
+            
+            // Special levels.
+            for (var level = 1; level <= 11; level++)
+            {
+                MarkLevelComplete(
+                    $"levelS-{level}",
+                    achievements["allStarsWorld5"],
+                    level != 11
+                );
+            }
+        }
+
+        private static void MarkLevelComplete(string levelPrefix, bool worldCompleted, bool worldStarred)
+        {
+            if (!worldCompleted) return;
+            LouisSaveSlotData.SetBool($"{levelPrefix}isLocked", false);
+            LouisSaveSlotData.SetBool($"{levelPrefix}isCompleted", true);
+            
+            if (!worldStarred) return;
+            LouisSaveSlotData.SetIntArray($"{levelPrefix}stars", new []{4, 4, 4});
         }
     }
 }

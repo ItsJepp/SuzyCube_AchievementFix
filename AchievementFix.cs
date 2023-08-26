@@ -2,8 +2,8 @@
 using System.Collections.ObjectModel;
 using MelonLoader;
 using UnityEngine;
-using Boo.Lang.Runtime;
 using Steamworks;
+using UnityEngine.SceneManagement;
 
 namespace SuzyCube_AchievementFix
 {
@@ -11,22 +11,14 @@ namespace SuzyCube_AchievementFix
     {
         private readonly Dictionary<string, bool> _achievements = new Dictionary<string, bool>();
 
-        public override void OnInitializeMelon()
-        {
-            Callback<UserStatsReceived_t>.Create(OnUserStatsReceived);
-        }
-
         private void OnUserStatsReceived(UserStatsReceived_t pCallback)
         {
+            // Achievements already retrieved.
+            if (_achievements.Count > 0) return;
+            
             if (pCallback.m_eResult != EResult.k_EResultOK)
             {
                 LoggerInstance.Msg("Achievements could not be retrieved.");
-                return;
-            }
-
-            if (_achievements.Count > 0)
-            {
-                LoggerInstance.Msg("Achievements have already been retrieved.");
                 return;
             }
             
@@ -43,9 +35,28 @@ namespace SuzyCube_AchievementFix
         public override void OnSceneWasInitialized(int buildIndex, string sceneName)
         {
             if (sceneName == "TitleScreen")
+            {
+                Callback<UserStatsReceived_t>.Create(OnUserStatsReceived);
+                SteamUserStats.RequestCurrentStats();
+                
                 MelonEvents.OnGUI.Subscribe(SaveSlotButton, 100);
-            else            
+            }
+            else
+            {
+                // Hide the button.
                 MelonEvents.OnGUI.Unsubscribe(SaveSlotButton);
+
+                if (sceneName == "LevelSelect")
+                {
+                    LoggerInstance.Msg(LouisGlobalVariables.starsPerWorld[5]);
+                    if (LouisGlobalVariables.starsPerWorld[5] >= 33)
+                        LoggerInstance.Msg("Ye have completied the achievement haha xD");
+                    else
+                        LoggerInstance.Msg("Not done yet");
+                }
+
+                //NoodleJavaScriptRelay.m_Instance.JSRelayUnlockAchievement("allStarsSpecialWorld", null);
+            }
         }
 
         private void SaveSlotButton()
@@ -61,6 +72,8 @@ namespace SuzyCube_AchievementFix
             }
             
             LoggerInstance.Msg("Using save slot " + saveSlot);
+            SaveSlotManager.CreateSaveFromAchievements(saveSlot, _achievements);
+            SceneManager.LoadScene(SceneManager.GetActiveScene().name);
         }
     }
 
