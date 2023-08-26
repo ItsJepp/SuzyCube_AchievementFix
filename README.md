@@ -7,11 +7,12 @@ A MelonLoader mod that fixes the "Special Star Stuff" achievement in "Suzy Cube"
     * **NOTE:** You MAY need to change the MelonLoader version to v0.5.7 before pressing INSTALL
 3. Download [SuzyCube_AchievementFix.dll](https://github.com/ItsJepp/SuzyCube_AchievementFix/releases/latest) and place into the new `Mods` folder in the game directory
 
-**OPTIONAL**
+### OPTIONAL
 If you've lost your progress but have unlocked achievements previously, you can also install the ProgressFromAchievements mod to unlock and star levels you already have the achievements for.
 If you've completed all worlds, it will also unlock and star all but one of the bonus levels.
-4. Download [SuzyCube_ProgressFromAchievements.dll](https://github.com/ItsJepp/SuzyCube_AchievementFix/releases/latest) and place into the `Mods` folder in the game directory
-5. Once in game, click the new button on the main menu to create a save file based on your unlocked achievements
+1. Follow the above installation instructions
+2. Download [SuzyCube_ProgressFromAchievements.dll](https://github.com/ItsJepp/SuzyCube_AchievementFix/releases/latest) and place into the `Mods` folder in the game directory
+3. Once in game, click the new button on the main menu to create a save file based on your unlocked achievements
 
 ## Troubleshooting
 ### I can't run MelonLoader
