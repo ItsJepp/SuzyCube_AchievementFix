@@ -5,11 +5,11 @@
     <PropertyGroup>
         <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
         <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-        <ProjectGuid>{E9127595-DB2A-48D3-B735-3A2A95B0F39F}</ProjectGuid>
+        <ProjectGuid>{93278C54-5042-4487-87D5-82FB43975330}</ProjectGuid>
         <OutputType>Library</OutputType>
         <AppDesignerFolder>Properties</AppDesignerFolder>
-        <RootNamespace>SuzyCube_AchievementFix</RootNamespace>
-        <AssemblyName>SuzyCube_AchievementFix</AssemblyName>
+        <RootNamespace>SuzyCube_ProgressFromAchievements</RootNamespace>
+        <AssemblyName>SuzyCube_ProgressFromAchievements</AssemblyName>
         <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
         <FileAlignment>512</FileAlignment>
     </PropertyGroup>
@@ -39,6 +39,9 @@
         <Reference Include="Assembly-UnityScript">
           <HintPath>M:\Games\steamapps\common\Suzy Cube\SuzyCube_Data\Managed\Assembly-UnityScript.dll</HintPath>
         </Reference>
+        <Reference Include="Assembly-UnityScript-firstpass">
+          <HintPath>M:\Games\steamapps\common\Suzy Cube\SuzyCube_Data\Managed\Assembly-UnityScript-firstpass.dll</HintPath>
+        </Reference>
         <Reference Include="MelonLoader">
           <HintPath>M:\Games\steamapps\common\Suzy Cube\MelonLoader\MelonLoader.dll</HintPath>
         </Reference>
@@ -57,7 +60,7 @@
         </Reference>
     </ItemGroup>
     <ItemGroup>
-        <Compile Include="AchievementFix.cs" />
+        <Compile Include="ProgressFromAchievements.cs" />
         <Compile Include="Properties\AssemblyInfo.cs"/>
     </ItemGroup>
     <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets"/>
